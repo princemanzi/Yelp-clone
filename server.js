@@ -4,6 +4,7 @@
 require('dotenv').config()
 
 const express = require('express');
+const db = require('./db');
 const morgan = require('morgan');
 
 const app = express();
@@ -29,8 +30,9 @@ const app = express();
 
  app.use(express.json()); // this middleware is used to parse the request body and convert it to json  this is an in built middleware by express.
 // get all restaurants
-app.get("/api/v1/restaurants", (req, res) => {
-    console.log("route handler running");
+app.get("/api/v1/restaurants", async (req, res) => {
+    const results = await db.query("SELECT * FROM restaurants")
+    console.log(results);
     // res.send("these are the restaurants");
     res.status(200).json({
         status: "success",

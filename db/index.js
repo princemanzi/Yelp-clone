@@ -1,6 +1,14 @@
-import pg from 'pg'
-const { Pool } = pg
+
+const { Pool } = require("pg");
  
-const pool = new Pool()
+const pool = new Pool({
+    user: 'postgres',
+    password: 'password',
+    host: 'localhost',
+    port: 5432,
+    database: 'yelpclone',
+  });
+  module.exports = {
+    query: (text, params) => pool.query(text, params),
+  };
  
-export const query = (text, params) => pool.query(text, params)
