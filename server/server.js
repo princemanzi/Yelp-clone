@@ -27,14 +27,20 @@ app.use(express.json()); //built in middleware by express
 app.get("/api/v1/restaurants", async (req, res) => {
     // console.log("get all restaurants"); // it requests for the server to send us a message in our terminal that is specified in the console.log
     // res.send("these are the restaurants"); //sends a message to our browser
-    const results = await db.query("select * from restaurants");
-    console.log(results);
-    res.status(200).json({
-        status: "success",
-        data:{
-            restaurant: ["mcdonald", "wend's", "KFC"],
-        },
-    });
+    try{
+        const results = await db.query("select * from restaurants");
+        console.log(results);
+        res.status(200).json({
+            status: "success",
+            results: results.rows.length,
+            data:{
+                restaurants: results.rows,
+            },
+        });
+    } catch (err) {
+        console.log(err);
+    }
+   
 });
 
 // getting individual restaurant
