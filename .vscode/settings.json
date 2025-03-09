@@ -6,5 +6,6 @@
         "PGPORT",
         "PGUSER",
         "Restaurantdetail"
-    ]
+    ],
+    "window.density.editorTabHeight": "default"
 }
