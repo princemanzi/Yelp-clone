@@ -2,11 +2,13 @@ require("dotenv").config();
 // console.log(`Hello ${process.env.HELLO}`) //working properly
 
 const express = require("express");
+const cors = require ("cors")
 const db = require("./db");
 
 const morgan = require("morgan");
 
 const app = express();
+app.use(cors());
 
 app.use(express.json()); //built in middleware by express
 
@@ -27,7 +29,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
   // res.send("these are the restaurants"); //sends a message to our browser
   try {
     const results = await db.query("select * from restaurants");
-    console.log(results);
+    // console.log(results);
     res.status(200).json({
       status: "success",
       results: results.rows.length,
