@@ -7,8 +7,15 @@ export const RestaurantContextProvider = ({ children }) => {
   // UseState correctly
   const [restaurants, setRestaurants] = useState([]);
 
+  // adding the restaurant to the front-end
+  const addRestaurants = (restaurant) => {
+    setRestaurants = [...restaurants, restaurant];
+  };
+
   return (
-    <RestaurantsContext.Provider value={{ restaurants, setRestaurants }}>
+    <RestaurantsContext.Provider
+      value={{ restaurants, setRestaurants, addRestaurants }}
+    >
       {children}
     </RestaurantsContext.Provider>
   );
