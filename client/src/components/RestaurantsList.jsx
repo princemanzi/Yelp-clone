@@ -19,6 +19,20 @@ const RestaurantsList = (props) => {
     fetchData();
   }, []); // Empty dependency array means this runs only once when the component mounts
 
+
+  // function to delete a restaurant directly from the front-end
+  const handleDelete = async (id) => {
+    try {
+      await RestaurantsFinder.delete(`/${id}`); // ✅ Make DELETE request
+      setRestaurants((prevRestaurants) => 
+        prevRestaurants.filter((restaurant) => restaurant.id !== id) // ✅ Correct state update
+      );
+    } catch (err) {
+      console.error("Error deleting restaurant:", err);
+    }
+  };
+  
+
   return (
     <div className="list-group">
       <table className="table table-hover table-dark">
@@ -41,7 +55,7 @@ const RestaurantsList = (props) => {
                 <td>{"$".repeat(restaurant.price_range)}</td>
                 <td>reviews</td>
                 <td><button className="btn btn-warning">Update</button></td>
-                <td><button className="btn btn-danger">Delete</button></td>
+                <td><button onClick={() => handleDelete(restaurant.id)} className="btn btn-danger">Delete</button></td>
               </tr>
             )
           })}
