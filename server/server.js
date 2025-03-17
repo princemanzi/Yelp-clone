@@ -2,13 +2,13 @@ require("dotenv").config();
 // console.log(`Hello ${process.env.HELLO}`) //working properly
 
 const express = require("express");
-const cors = require ("cors")
+const cors = require("cors");
 const db = require("./db");
 
 const morgan = require("morgan");
 
 const app = express();
-app.use(cors());
+app.use(cors()); // another middleware
 
 app.use(express.json()); //built in middleware by express
 
@@ -38,7 +38,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
       },
     });
   } catch (err) {
-    console.log(err);
+    console.log("error fetching restaurants", err);
   }
 });
 
@@ -117,6 +117,7 @@ app.post("/api/v1/restaurants", async (req, res) => {
     console.log(err);
   }
 });
+
 
 // update a restaurant
 
