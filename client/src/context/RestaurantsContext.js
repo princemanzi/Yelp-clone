@@ -9,9 +9,9 @@ export const RestaurantContextProvider = ({ children }) => {
 
   // adding the restaurant to the front-end
   const addRestaurants = (restaurant) => {
-    setRestaurants = [...restaurants, restaurant];
+    setRestaurants((prevRestaurants) => [...prevRestaurants, restaurant]);
   };
-
+  
   return (
     <RestaurantsContext.Provider
       value={{ restaurants, setRestaurants, addRestaurants }}

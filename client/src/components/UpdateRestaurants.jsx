@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import RestaurantsFinder from "../apis/RestaurantsFinder";
+import { RestaurantsContext } from '../context/RestaurantsContext';
+
 
 const UpdateRestaurants = () => {
   const { id } = useParams();
+  const { restaurants } = useContext(RestaurantsContext);
   const navigate = useNavigate();
   
   // Form fields state
@@ -49,6 +52,7 @@ const UpdateRestaurants = () => {
 
   return (
     <div>
+      <h1>{restaurants[0].name}</h1>
       <form id="update-form" name="update-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
