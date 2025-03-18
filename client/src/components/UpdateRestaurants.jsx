@@ -52,7 +52,6 @@ const UpdateRestaurants = () => {
 
   return (
     <div>
-      <h1>{restaurants[0].name}</h1>
       <form id="update-form" name="update-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
