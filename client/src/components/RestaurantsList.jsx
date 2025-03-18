@@ -19,11 +19,12 @@ const RestaurantsList = (props) => {
 
     // ✅ Call the async function
     fetchData();
-  }, []); // Empty dependency array means this runs only once when the component mounts
+  }, [setRestaurants]); // Empty dependency array means this runs only once when the component mounts
 
 
   // function to delete a restaurant directly from the front-end
-  const handleDelete = async (id) => {
+  const handleDelete = async (e, id) => {
+    e.stopPropagation()
     try {
       await RestaurantsFinder.delete(`/${id}`); // ✅ Make DELETE request
       setRestaurants((prevRestaurants) => 
@@ -36,9 +37,15 @@ const RestaurantsList = (props) => {
   
 
   // function to handle update 
-  const handleUpdate = (id) => {
+  const handleUpdate = (e, id) => {
+    e.stopPropagation()
     navigate(`/restaurants/${id}/update`); // ✅ Correct navigation
   };
+
+  const handleRestaurantSelect = (id) => {
+    navigate(`/restaurants/${id}`);
+  };
+  
 
   return (
     <div className="list-group">
@@ -56,13 +63,13 @@ const RestaurantsList = (props) => {
         <tbody>
           {restaurants.map((restaurant) => {
             return(
-              <tr key={restaurant.id}>
+              <tr onClick={() => handleRestaurantSelect(restaurant.id)} key={restaurant.id}>
                 <td>{restaurant.name}</td>
                 <td>{restaurant.location}</td>
                 <td>{"$".repeat(restaurant.price_range)}</td>
                 <td>reviews</td>
-                <td><button  onClick={() =>handleUpdate(restaurant.id)} className="btn btn-warning">Update</button></td>
-                <td><button onClick={() => handleDelete(restaurant.id)} className="btn btn-danger">Delete</button></td>
+                <td><button  onClick={(e) =>handleUpdate(e,restaurant.id)} className="btn btn-warning">Update</button></td>
+                <td><button onClick={(e) => handleDelete(e,restaurant.id)} className="btn btn-danger">Delete</button></td>
               </tr>
             )
           })}

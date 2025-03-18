@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import RestaurantsFinder from "../apis/RestaurantsFinder";
-import { RestaurantsContext } from '../context/RestaurantsContext';
+import { RestaurantsContext } from "../context/RestaurantsContext";
+
 
 
 const UpdateRestaurants = () => {
