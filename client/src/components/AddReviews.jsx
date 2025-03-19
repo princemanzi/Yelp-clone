@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import RestaurantsFinder from "../apis/RestaurantsFinder";
-import { useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 
 const AddReviews = () => {
   // ✅ State should be at the top level
+  const location = useLocation()
+  console.log(location)
+  const navigate = useNavigate()
   
   const { id } = useParams();
   console.log(id);
@@ -14,12 +17,18 @@ const AddReviews = () => {
 
   const handleSubmitReview = async (e) => {
     e.preventDefault()
-    const response = await RestaurantsFinder.post(`/${id}/addReview`, {
+
+    try {
+      const response = await RestaurantsFinder.post(`/${id}/addReview`, {
       name,
       review: reviewText,
       rating,
     });
-    console.log(response);
+    navigate.push("/");
+    navigate.push(location.pathname);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
