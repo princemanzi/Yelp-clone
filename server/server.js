@@ -12,17 +12,6 @@ app.use(cors()); // another middleware
 
 app.use(express.json()); //built in middleware by express
 
-// app.use(morgan('dev'));
-
-// app.use((req, res, next) => {
-//     console.log("our middleware");
-//     next();
-// });
-
-// app.use((req, res, next) => {
-//     console.log("our second middleware");
-//     next();
-// });
 // get all restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
   // console.log("get all restaurants"); // it requests for the server to send us a message in our terminal that is specified in the console.log
@@ -50,52 +39,28 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
     // const results = await db.query(
     //   `select * from restaurants where id = ${req.params.id}`
     // );
-    const results = await db.query("select * from restaurants where id = $1", [
+    const restaurant = await db.query(
+      "select * from restaurants where id = $1",
+      [req.params.id]
+    );
+    // console.log(results.rows[0]);
+
+    const reviews = await db.query("select * from reviews where restaurant_id = $1", [
       req.params.id,
     ]);
-    // console.log(results.rows[0]);
+
     res.status(200).json({
       status: "success",
       data: {
-        restaurant: results.rows[0],
+        restaurant: restaurant.rows[0],
+        reviews: reviews.rows,
       },
     });
   } catch (err) {
     console.log(err);
+    res.status(500).json({ status: "error", message: "Server error" });
   }
 });
-
-// app.get("/api/v1/restaurants/:id", async (req, res) => {
-//     try {
-//       console.log("Received ID:", req.params.id);
-
-//       // Convert ID to an integer
-//       const restaurantId = parseInt(req.params.id, 10);
-
-//       // Validate the ID (ensure it's a number)
-//       if (isNaN(restaurantId)) {
-//         return res.status(400).json({ status: "error", message: "Invalid restaurant ID" });
-//       }
-
-//       // Use parameterized query to prevent SQL injection
-//       const results = await query("SELECT * FROM restaurants WHERE id = $1", [restaurantId]);
-
-//       // Check if a restaurant was found
-//       if (results.rows.length === 0) {
-//         return res.status(404).json({ status: "error", message: "Restaurant not found" });
-//       }
-
-//       res.status(200).json({
-//         status: "success",
-//         data: {
-//           restaurant: results.rows[0],
-//         },
-//       });
-//     } catch (err) {
-//       console.error("Database error:", err);
-//       res.status(500).json({ status: "error", message: "Internal server error" });
-//     }
-//   });
 
 //create a restaurant
 app.post("/api/v1/restaurants", async (req, res) => {
@@ -117,7 +82,6 @@ app.post("/api/v1/restaurants", async (req, res) => {
     console.log(err);
   }
 });
-
 
 // update a restaurant
 
