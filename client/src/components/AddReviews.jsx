@@ -1,10 +1,26 @@
 import React, { useState } from "react";
+import RestaurantsFinder from "../apis/RestaurantsFinder";
+import { useParams } from "react-router-dom"
 
 const AddReviews = () => {
   // ✅ State should be at the top level
+  
+  const { id } = useParams();
+  console.log(id);
+  
   const [name, setName] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState("Rating");
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault()
+    const response = await RestaurantsFinder.post(`/${id}/addReview`, {
+      name,
+      review: reviewText,
+      rating,
+    });
+    console.log(response);
+  }
 
   return (
     <div className="mb-2">
@@ -52,7 +68,7 @@ const AddReviews = () => {
           ></textarea>
         </div>
 
-        <button className="btn btn-primary mt-2">Submit</button>
+        <button type="submit" onClick={handleSubmitReview} className="btn btn-primary mt-2">Submit</button>
       </form>
     </div>
   );
